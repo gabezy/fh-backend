@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  postgresql:
+    image: 'bitnami/postgresql:latest'
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRESQL_PASSWORD=fithub
+      - POSTGRESQL_DATABASE=fh_api
