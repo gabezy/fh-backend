@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/workout")
+@RequestMapping("/workouts")
 public class WorkoutController {
     @Autowired
     private WorkoutRepository workoutRepository;
@@ -29,7 +29,7 @@ public class WorkoutController {
         var user = userRepository.getReferenceById(data.userId());
         var training = new Workout(user, data.name());
         workoutRepository.save(training);
-        var uri = uriBuilder.path("/training/{id}").buildAndExpand(training.getId()).toUri();
+        var uri = uriBuilder.path("/workouts/{id}").buildAndExpand(training.getId()).toUri();
         return ResponseEntity.created(uri).body(new DetailsWorkoutDto(training));
     }
 
