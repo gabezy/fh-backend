@@ -1,6 +1,7 @@
 package dev.moreira.Fithub.domain.service;
 
 import dev.moreira.Fithub.domain.repository.UserRepository;
+import dev.moreira.Fithub.util.StringValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,6 @@ public class UserService {
     private UserRepository repository;
 
     public boolean usernameAlreadyExistsOrInvalid(String username) {
-        return repository.findByUsername(username) != null || username == null;
+        return repository.findByUsername(username) != null || StringValidator.stringIsEmptyOrNull(username);
     }
 }

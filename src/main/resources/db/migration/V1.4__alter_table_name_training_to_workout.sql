@@ -1,0 +1,1 @@
+alter table training rename to workout;

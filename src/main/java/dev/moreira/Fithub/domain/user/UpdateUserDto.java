@@ -1,6 +1,6 @@
 package dev.moreira.Fithub.domain.user;
 
-public record UpdateUser(
+public record UpdateUserDto(
         String newUsername,
         String newEmail,
         String newPassword

@@ -3,8 +3,8 @@ package dev.moreira.Fithub.controller;
 import dev.moreira.Fithub.domain.repository.UserRepository;
 import dev.moreira.Fithub.domain.service.UserService;
 import dev.moreira.Fithub.domain.user.CreateUserDto;
-import dev.moreira.Fithub.domain.user.DetailsUser;
-import dev.moreira.Fithub.domain.user.UpdateUser;
+import dev.moreira.Fithub.domain.user.DetailsUserDto;
+import dev.moreira.Fithub.domain.user.UpdateUserDto;
 import dev.moreira.Fithub.domain.user.User;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -24,23 +24,23 @@ public class UserController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DetailsUser> create(@RequestBody @Valid CreateUserDto data, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DetailsUserDto> create(@RequestBody @Valid CreateUserDto data, UriComponentsBuilder uriBuilder) {
         User user = new User(data);
         repository.save(user);
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
-        return ResponseEntity.created(uri).body(new DetailsUser(user));
+        return ResponseEntity.created(uri).body(new DetailsUserDto(user));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetailsUser> get(@PathVariable String id) {
+    public ResponseEntity<DetailsUserDto> get(@PathVariable String id) {
         var user = repository.getReferenceById(id);
-        return ResponseEntity.ok(new DetailsUser(user));
+        return ResponseEntity.ok(new DetailsUserDto(user));
     }
 
     @PutMapping("/{id}")
     @Transactional
     //TODO: implement the validation and update for new email and password
-    public ResponseEntity updateUsername(@PathVariable String id, @RequestBody @Valid UpdateUser dataToUpdate) {
+    public ResponseEntity updateUsername(@PathVariable String id, @RequestBody @Valid UpdateUserDto dataToUpdate) {
         var user = repository.getReferenceById(id);
         if (service.usernameAlreadyExistsOrInvalid(dataToUpdate.newUsername())) {
             throw new RuntimeException("Username Already Exists");

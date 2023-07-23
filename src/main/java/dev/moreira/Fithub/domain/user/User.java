@@ -25,6 +25,7 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = null;
 
+    //TODO: Implement Hash on the password
 
     public User(CreateUserDto data) {
         this.username = data.username();
