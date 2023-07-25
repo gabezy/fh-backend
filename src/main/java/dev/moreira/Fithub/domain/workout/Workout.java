@@ -5,6 +5,7 @@ import dev.moreira.Fithub.util.StringValidator;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity(name = "Workout")
@@ -23,14 +24,17 @@ public class Workout {
     private User user;
 
     private String name;
+    @Column(name = "workout_date")
+    private LocalDate workoutDate;
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = null;
 
-    public Workout(User user, String name) {
+    public Workout(User user, RegisterWorkoutDto data) {
         this.user = user;
-        this.name = name;
+        this.name = data.name();
+        this.workoutDate = LocalDate.parse(data.workoutDate());
     }
 
     public void update(UpdateWorkoutDto data) {
