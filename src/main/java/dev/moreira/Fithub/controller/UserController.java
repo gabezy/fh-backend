@@ -35,12 +35,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid LoginUserDto data) {
+    public ResponseEntity<DetailsUserDto> login(@RequestBody @Valid LoginUserDto data) {
         var user = userRepository.findByEmailAndPassword(data.email(), data.password());
         if (user == null) {
             throw new RuntimeException("User doesn't exist");
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new DetailsUserDto(user));
     }
 
     @PutMapping("/{id}")

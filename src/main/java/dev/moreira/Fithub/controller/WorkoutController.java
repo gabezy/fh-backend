@@ -20,17 +20,16 @@ public class WorkoutController {
     private WorkoutRepository workoutRepository;
     @Autowired
     private UserRepository userRepository;
-
     //TODO: implement validation (check if workout, user exists and return a custom exception if not)
 
     @PostMapping
     @Transactional
     public ResponseEntity<DetailsWorkoutDto> register(@RequestBody @Valid RegisterWorkoutDto data, UriComponentsBuilder uriBuilder) {
         var user = userRepository.getReferenceById(data.userId());
-        var training = new Workout(user, data.name());
-        workoutRepository.save(training);
-        var uri = uriBuilder.path("/workouts/{id}").buildAndExpand(training.getId()).toUri();
-        return ResponseEntity.created(uri).body(new DetailsWorkoutDto(training));
+        var workout = new Workout(user, data);
+        workoutRepository.save(workout);
+        var uri = uriBuilder.path("/workouts/{id}").buildAndExpand(workout.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DetailsWorkoutDto(workout));
     }
 
     @GetMapping("/{userId}")
