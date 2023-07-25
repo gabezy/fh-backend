@@ -1,10 +1,14 @@
 package dev.moreira.Fithub.domain.workout;
 
+import java.time.LocalDate;
+
 public record ListWorkoutDto(
+        String id,
         String name,
-        String userId
+        LocalDate date
+
 ) {
     public ListWorkoutDto(Workout data) {
-        this(data.getName(), data.getUser().getId());
+        this(data.getId(),data.getName(), data.getWorkoutDate());
     }
 }
