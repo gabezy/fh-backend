@@ -3,6 +3,7 @@ package dev.moreira.Fithub.controller;
 import dev.moreira.Fithub.domain.repository.UserRepository;
 import dev.moreira.Fithub.domain.service.UserService;
 import dev.moreira.Fithub.domain.user.*;
+import dev.moreira.Fithub.util.RegexValidator;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,13 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<DetailsUserDto> login(@RequestBody @Valid LoginUserDto data) {
-        var user = userRepository.findByEmailAndPassword(data.email(), data.password());
+        User user = null;
+        System.out.println(data.login());
+        if (RegexValidator.emailValidator(data.login())) {
+            user = userRepository.findByEmailAndPassword(data.login(), data.password());
+        } else {
+            user = userRepository.findByUsernameAndPassword(data.login(), data.password());
+        }
         if (user == null) {
             throw new RuntimeException("User doesn't exist");
         }
